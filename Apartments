@@ -1,0 +1,54 @@
+#include<iostream>
+using namespace std;
+void qsort(int a[], int i, int l)
+{
+    if(i>=l)
+        return;
+    int left = i, right = l;
+    int pivot = a[(i+l)/2];
+    while(i<=l)
+    {
+        while(a[i]<pivot)
+            i++;
+        while(a[l]>pivot)
+            l--;
+        if(i<=l){
+            swap(a[i], a[l]);
+            i++;
+            l--;
+        }
+    }
+    qsort(a, left, l);
+    qsort(a, i, right);
+}
+int main()
+{
+    int n, m, k, i=0, j=0, ans = 0;
+    cin>>n>>m>>k;
+    int a[n], f[m];
+    for(int i=0;i<n;i++)
+        cin>>a[i];
+    for(int i=0;i<m;i++)
+        cin>>f[i];
+    qsort(a, 0, n-1);
+    qsort(f, 0, m-1);
+    i=0;j=0;
+    while (i < n && j < m)
+    {
+        if (abs(a[i] - f[j]) <= k)
+        {
+            ans++;
+            i++;
+            j++;
+        }
+        else if (a[i] < f[j])
+        {
+            i++;
+        }
+        else
+        {
+            j++;
+        }
+    }
+    cout<<ans;
+}
