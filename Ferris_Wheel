@@ -1,0 +1,46 @@
+#include<iostream>
+using namespace std;
+void qsort(int a[], int i, int l)
+{
+    if(i>=l)
+        return;
+    int left = i, right = l, token = a[(i+l)/2];
+    while(i<=l)
+    {
+        while(a[i]<token)
+            i++;
+        while(a[l]>token)
+            l--;
+        if(i<=l)
+        {
+            swap(a[i], a[l]);
+            i++;
+            l--;
+        }
+    }
+    qsort(a, left, l);
+    qsort(a, i, right);
+}
+int main()
+{
+    int n, x, t=0, ans=0;
+    cin>>n>>x;
+    int a[n];
+    for(int i=0;i<n;i++)
+        cin>>a[i];
+    qsort(a, 0, n-1);
+    n--;
+    while(t<=n){
+        if((a[t]+a[n])<=x)
+        {
+            ans++;
+            t++;
+            n--;
+        }
+        else{
+            n--;
+            ans++;
+        }
+    }
+    cout<<ans;
+}
