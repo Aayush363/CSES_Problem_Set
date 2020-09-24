@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int ticket, log, t;
+    cin>>ticket>>log;
+    multiset<int, greater<int> > tickets;
+    while(ticket--){
+        cin>>t;
+        tickets.insert(t);
+    }
+    while(log--){
+        cin>>t;
+        auto a = tickets.lower_bound(t);
+        if(a == tickets.end())
+            cout<<-1<<"\n";
+        else{
+            cout<<*a<<"\n";
+            tickets.erase(a);
+        }
+    }
+}
