@@ -1,0 +1,39 @@
+#include<iostream>
+#include<map>
+using namespace std;
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, temp, ans = 0, q = 0, m = -1;
+    cin>>n;
+    map<int, int> arr;
+    map<int, int>::iterator it = arr.begin();
+    for(int i=0;i<n;i++)
+    {
+        cin>>temp;
+        it = arr.find(temp);
+        if(it==arr.end())
+        {
+            arr[temp] = i;
+            q++;
+            //cout<<"q = "<<q<<endl;
+        }
+        else
+        {
+            if(arr[temp]>=m){
+                q = i-arr[temp];
+                m = arr[temp]+1;
+            }
+            else
+            {
+                q++;
+            }
+            arr[temp] = i;
+           // cout<<"q = "<<q<<endl;
+        }
+        if(q>ans)
+            ans = q;
+    }
+    cout<<ans;
+}
