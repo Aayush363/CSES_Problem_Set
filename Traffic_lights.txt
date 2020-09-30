@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, l, temp, a, b, c;
+    cin>>n>>l;
+    set<int> arr;
+    multiset<int> length;
+    multiset<int>::iterator i2 = length.begin();
+    set<int>::iterator i1 = arr.begin(), i3, i4;
+    arr.insert(0);
+    arr.insert(n);
+    length.insert(n);
+    while(l--)
+    {
+        cin>>temp;
+        arr.insert(temp);
+        i4 = i3 = i1 = arr.find(temp);
+        i1++;
+        i3--;
+        i2 = length.find(*i1 - *i3);
+        length.erase(i2);
+        length.insert(*i1 - *i4);
+        length.insert(*i4 - *i3);
+        cout<<*(--length.end())<<" ";
+    }
+}
