@@ -1,0 +1,80 @@
+#include<bits/stdc++.h>
+using namespace std;
+void qsort(int a[], int b[], int i, int l)
+{
+    if(i>=l)
+        return;
+    int left = i, right = l,pivot = a[(i+l)/2];
+    while(i<=l)
+    {
+        while(a[i]<pivot)
+            i++;
+        while(a[l]>pivot)
+            l--;
+        if(i<=l)
+            {
+                swap(a[i], a[l]);
+                swap(b[i], b[l]);
+                i++;
+                l--;
+            }
+    }
+    qsort(a, b, left, l);
+    qsort(a, b, i, right);
+}
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, a_r = 0, max_room = 0;
+    cin>>n;
+    int arr[n], dep[n], seq1[n], seq2[n], ans[n];
+    map<int, int> room_number;
+    map<int, int>::iterator it;
+    vector<int> empty_room;
+    for(int i=0;i<n;i++)
+    {
+        cin>>arr[i]>>dep[i];
+        seq2[i] = seq1[i] = i;
+        room_number.insert(pair<int, int>(i, 0));
+    }
+    qsort(arr, seq1, 0, n-1);
+    qsort(dep, seq2, 0, n-1);
+    
+    int i=0, j=0;
+    while(i<n)
+    {
+        if(arr[i]<=dep[j])
+        {
+            if(a_r<max_room)
+            {
+                a_r++;
+                ans[i] = *empty_room.begin();
+                empty_room.erase(empty_room.begin());
+                it = room_number.find(seq1[i]);
+                it->second = ans[i];
+                i++;
+            }
+            else
+            {
+                max_room = ++a_r;
+                it = room_number.find(seq1[i]);
+                it->second = a_r;
+                ans[i] = a_r;
+                i++;
+            }
+            
+        }
+        else
+        {
+            it = room_number.find(seq2[j]);
+            a_r--;
+            empty_room.push_back(it->second);
+            j++;
+        }  
+    }
+    cout<<max_room<<"\n";
+    qsort(seq1, ans, 0, n-1);
+    for(i=0;i<n;i++)
+        cout<<ans[i]<<" ";
+}
