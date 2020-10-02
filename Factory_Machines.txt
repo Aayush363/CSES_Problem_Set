@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    long long n, t, min_time = 1e10, ans = 0;
+    cin>>n>>t;
+    long long machine[n];
+    long long i = 0, j, mid;
+    for(int i=0;i<n;i++)
+    {
+        cin>>machine[i];
+        min_time = machine[i]<min_time?machine[i]:min_time;
+    }
+    j = min_time*t;
+    while(1)
+    {
+        mid = (i+j)/(long long)2;
+        ans = 0;
+        for(int k=0;k<n;k++)
+            ans+=mid/machine[k];
+        if(ans==t)
+        {
+            j = mid;
+            mid--;
+            ans = 0;
+            for(int k=0;k<n;k++)
+                ans+=mid/machine[k];
+            if(ans<t)
+                break;
+        }
+        else if(ans>t)
+            j = mid;
+	else
+	    i = mid;
+        if(j == i+(long long)1)
+            break;
+    }
+    cout<<j;
+}
