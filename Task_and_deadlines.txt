@@ -1,0 +1,41 @@
+#include<iostream>
+using namespace std;
+void qsort(int a[], int b[], int i, int l)
+{
+    if(i>=l)
+        return;
+    int left = i, right = l, pivot = a[(i+l)/2];
+    while(i<=l)
+    {
+        while(a[i]<pivot)
+            i++;
+        while(a[l]>pivot)
+            l--;
+        if(i<=l)
+        {
+            swap(a[i], a[l]);
+            swap(b[i], b[l]);
+            i++;
+            l--;
+        }
+    }
+    qsort(a, b, left, l);
+    qsort(a, b, i, right);
+}
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    long int n, t = 0, ans = 0;
+    cin>>n;
+    int dur[n], dead[n];
+    for(int i=0;i<n;i++)
+        cin>>dur[i]>>dead[i];
+    qsort(dur, dead, 0, n-1);
+    for(int i=0;i<n;i++)
+    {
+        t += dur[i];
+        ans += (dead[i] - t);
+    }
+    cout<<ans;
+}
