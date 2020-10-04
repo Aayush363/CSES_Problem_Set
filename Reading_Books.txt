@@ -1,0 +1,101 @@
+#include<iostream>
+using namespace std;
+void qsort(long long a[], long long b[], long long i, long long l)
+{
+    if(i>=l)
+        return;
+    long long left = i, right = l, pivot = a[(i+l)/2];
+    while(i<=l)
+    {
+        while(a[i]<pivot)
+            i++;
+        while(a[l]>pivot)
+            l--;
+        if(i<=l)
+        {
+            swap(a[i], a[l]);
+            swap(b[i], b[l]);
+            i++;
+            l--;
+        }
+    }
+    qsort(a, b, left, l);
+    qsort(a, b, i, right);
+}
+using namespace std;
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    long long n, ans = 0, left = 0, lefti=-1;
+    cin>>n;
+    long long a[n], b[n];
+    for(int i=0;i<n;i++)
+        {cin>>a[i]; b[i] = a[i];}
+    qsort(a, b, 0, n-1);
+    long long i=0, l=n-1;
+    while(i<n&&l>=0)
+    {
+        //cout<<"i = "<<i<<"l = "<<l<<endl;
+        if(a[i]<b[l]&&i!=l)
+        {   
+            ans+=a[i];
+            b[l]-=a[i];
+            i++;
+        }
+        else if(a[i]>=b[l]&&i!=l)
+        {
+            ans+=b[l];
+            a[i]-=b[l];
+            l--;
+            if(a[i]==0)
+                i++;
+        }
+        //cout<<"OK"<<"\n";
+        //cout<<ans<<" ";
+        else
+        {
+            if(a[i]<b[l])
+            {
+                l--;
+		left = b[l+1];
+		lefti =  l+1;
+            }
+            else if(a[i]>b[l])
+            {
+                i++;
+                left = a[i-1];
+		lefti  = i-1;
+            }
+            else
+            {
+                left = b[l];
+		lefti = l;
+                l--;
+            }
+            //cout<<ans<<" ";
+        }
+    }
+    //cout<<"ans = "<<ans<<" "<<"i = "<<i<<" "<<"lefti = "<<lefti<<endl;
+    if(i==n)
+        for(;l>=0;l--)
+            {
+                ans+=b[l];
+                if(l!=lefti)
+                {
+                    left-=b[l];
+                }
+            }
+    else
+        for(;i<n;i++)
+            {
+                ans+=a[i];
+                if(lefti!=i)
+                {
+                    left-=a[i];
+                }
+            }
+    //cout<<"ans = "<<ans<<" "<<"left = "<<left<<endl;
+    ans+=left;
+    cout<<ans;
+}
