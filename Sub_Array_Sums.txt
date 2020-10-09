@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll n, sum, currsum = 0, temp, ans = 0;
+    cin>>n>>sum;
+    map<ll, ll> arr;
+    map<ll, ll>::iterator it = arr.begin();
+    while(n--)
+    {
+        cin>>temp;
+        currsum+=temp;
+        if(currsum>=sum)
+        {
+            ans += currsum == sum ? 1:0;
+            it = arr.find(currsum - sum);
+            ans += it != arr.end() ? it->second : 0;
+        }
+        if(arr.find(currsum)==arr.end())
+        {
+            arr.insert({currsum, 1});
+        }
+        else
+        {
+            it = arr.find(currsum);
+            it->second += 1;
+        }
+    }
+    cout<<ans;
+}
