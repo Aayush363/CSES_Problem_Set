@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long arr[100], a[1000001];
+long long fun(long long n, long long sum)
+{
+    if(sum == 0)
+        return 0;
+    if(a[sum] > 0)
+        return a[sum];
+    long long temp = 2147483647;
+    for(long long i=0;i<n;i++)
+    {
+        if(sum - arr[i] >= 0)
+            temp = min(temp, 1+fun(n, sum - arr[i]));
+    }
+    a[sum] = temp;
+    return temp; 
+}
+int main()
+{
+    long long n, sum, ans;
+    cin>>n>>sum;
+    a[0] = 0;
+    for(long long i=0;i<n;i++)
+        cin>>arr[i];
+    ans = fun(n, sum);
+    if(ans<2147483647)
+	cout<<ans;
+    else
+	cout<<-1;
+}
