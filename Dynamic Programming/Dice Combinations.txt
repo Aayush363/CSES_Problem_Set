@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+ll arr[100000000];
+ll fun(ll n)
+{
+    if(arr[n] > 0)
+        return arr[n];
+    ll temp = 0;
+    for(ll i=6;i>=1;i--)
+    {
+        if(n-i >= 0)
+            temp += fun(n-i)%1000000007;   
+    }
+    arr[n] = temp;
+    return temp;
+}
+int main()
+{
+    ll n;
+    arr[0] = 1;
+    cin>>n;
+    fun(n);
+    cout<<arr[n]%1000000007;
+}
