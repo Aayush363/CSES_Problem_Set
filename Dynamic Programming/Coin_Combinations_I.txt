@@ -1,0 +1,33 @@
+#include<iostream>
+using namespace std;
+#define ll long long 
+ll coins[100], arr[1000001];
+ll fun(ll n, ll sum)
+{
+    if(arr[sum] == -1)
+	return 0;
+    if(arr[sum] > 0)
+        return arr[sum];
+    ll temp = 0;
+    for(ll i = n-1;i>=0;i--)
+    {
+        if(sum - coins[i] >= 0)
+            temp += fun(n, sum - coins[i])%1000000007;
+    }
+    arr[sum] = temp;
+    if(temp == 0)
+	arr[sum] = -1;
+    return temp;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll n, sum;
+    cin>>n>>sum;
+    for(int i=0;i<n;i++)
+        cin>>coins[i];
+    arr[0] = 1;
+    cout<<fun(n, sum)%1000000007<<endl;
+}
