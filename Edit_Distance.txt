@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+using namespace std;
+int fun(char a[], char b[])
+{
+	int dp[strlen(a)+1][strlen(b)+1];
+	for(int i=0;i<=strlen(b);i++)
+		dp[0][i] = i;
+	for(int i=0;i<=strlen(a);i++)
+		dp[i][0] = i;
+	for(int i=1;i<=strlen(a);i++)
+	{
+		for(int j=1;j<=strlen(b);j++)
+		{
+			if(b[j-1] == a[i-1])
+				dp[i][j] = dp[i-1][j-1];
+			else
+				dp[i][j] = min(min(dp[i-1][j], dp[i-1][j-1]), dp[i][j-1]) + 1;   
+		}
+	}
+	return dp[strlen(a)][strlen(b)];
+}
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	char a[5001], b[5001];
+	cin>>a>>b;
+	cout<<fun(a, b);
+}
